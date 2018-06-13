@@ -32,6 +32,10 @@ echo "starting simple storage script on bootstrap"
 #chmod +x $DIR/mount_tomcat.sh
 #source $DIR/mount_tomcat.sh
 
+chown -R jboss:jboss $JWS_HOME
+echo "chown jboss:jboss $JWS_HOME"
+echo $?
+
 DIRECTORY=/mnt/tomcat/webserver/webapps
 
 if [ ! -d "$DIRECTORY" ]; then
@@ -39,9 +43,6 @@ if [ ! -d "$DIRECTORY" ]; then
 echo "$DIRECTORY doesn't exists in volume mount, fill it for the first time.."
 
 ## swap mount storage with webserver ephemeral data if not already present in the volume
-chown -R jboss:jboss $JWS_HOME
-echo "chown jboss:jboss $JWS_HOME"
-echo $?
 
 cp -rf $JWS_HOME /mnt/tomcat/
 echo "cp -rf $JWS_HOME/* /mnt/tomcat/webserver"
@@ -52,8 +53,15 @@ rm -rf $JWS_HOME/*
 echo "rm -rf $JWS_HOME/*"
 echo $?
 
+rm -f /mnt/tomcat/webserver/webapps
+echo "remove symbolic link to deployments dir via : rm -f /mnt/tomcat/webserver/webapps"
+echo $?
+cp -rf /deployments /mnt/tomcat/webserver/webapps
+echo "cp -rf /deployments /mnt/tomcat/webserver/webapps"
+echo $?
+
 for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done
-echo "for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done, check.."
+#echo "for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done, check.."
 find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type f -exec cp {} $JWS_HOME \;
 
 echo $?
