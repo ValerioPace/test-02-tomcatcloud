@@ -29,7 +29,8 @@ echo "access valve log added"
 
 echo "starting simple storage script on bootstrap"
 
-source $SOURCE/mount_tomcat.sh
+chmod +x $DIR/mount_tomcat.sh
+source $DIR/mount_tomcat.sh
 
 
 echo "$JWS_HOME/bin/launch.sh"
