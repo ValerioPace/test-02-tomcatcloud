@@ -47,17 +47,18 @@ echo "$DIRECTORY doesn't exists in volume mount, fill it for the first time.."
 cp -rf $JWS_HOME /mnt/tomcat/
 echo "cp -rf $JWS_HOME/* /mnt/tomcat/webserver"
 echo $?
-fi
-
-rm -rf $JWS_HOME/*
-echo "rm -rf $JWS_HOME/*"
-echo $?
 
 rm -f /mnt/tomcat/webserver/webapps
 echo "remove symbolic link to deployments dir via : rm -f /mnt/tomcat/webserver/webapps"
 echo $?
 cp -rf /deployments /mnt/tomcat/webserver/webapps
 echo "cp -rf /deployments /mnt/tomcat/webserver/webapps"
+echo $?
+
+fi
+
+rm -rf $JWS_HOME/*
+echo "rm -rf $JWS_HOME/*"
 echo $?
 
 for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done
