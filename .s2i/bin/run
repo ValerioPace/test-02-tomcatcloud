@@ -39,7 +39,7 @@ if [ ! -d "$DIRECTORY" ]; then
 echo "$DIRECTORY doesn't exists in volume mount, fill it for the first time.."
 
 ## swap mount storage with webserver ephemeral data if not already present in the volume
-chown -r jboss:jboss $JWS_HOME
+chown -R jboss:jboss $JWS_HOME
 echo "chown jboss:jboss $JWS_HOME"
 
 rm -rf $JWS_HOME/*
