@@ -43,12 +43,14 @@ chown jboss:jboss $JWS_HOME
 echo "chown jboss:jboss $JWS_HOME"
 cp -rf $JWS_HOME/* /mnt/tomcat/webserver
 echo "cp -rf $JWS_HOME/* /mnt/tomcat/webserver"
+fi
+
+
 rm -rf $JWS_HOME/*
 echo "rm -rf $JWS_HOME/*"
 ln -s /mnt/tomcat/webserver $JWS_HOME
 echo "ln -s /mnt/tomcat/webserver $JWS_HOME, check.."
 ls -lrt /opt
-fi
 
 
 
