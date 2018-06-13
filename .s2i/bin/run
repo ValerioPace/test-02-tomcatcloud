@@ -32,7 +32,7 @@ echo "starting simple storage script on bootstrap"
 #chmod +x $DIR/mount_tomcat.sh
 #source $DIR/mount_tomcat.sh
 
-DIRECTORY = /mnt/tomcat/webserver/webapps
+DIRECTORY=/mnt/tomcat/webserver/webapps
 
 if [ ! -d "$DIRECTORY" ]; then
 
