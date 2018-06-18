@@ -1,0 +1,28 @@
+>oc adm policy add-scc-to-user anyuid developer --as system:admin
+scc "anyuid" added to: ["developer"]
+
+>oc adm policy add-scc-to-group anyuid system:authenticated --as system:admin
+
+
+Grant AnyUid privilege to user developer for each pod in cluster; permit to execute DeploymentConfig with same privileges
+as root user inside of Docker container 
+
+
+
+For Mysql external connectivity:
+
+> create user 'root'@'%' identified by 'PraEtoRian82';
+
+> create user 'noipadb'@'%' identified by 'noipadb';
+
+> grant all privileges on *.* to 'root'@'%';
+
+> flush privileges;
+
+Stesso vale per l'utente root in localhost, che deve essere identificato tramite password (per proxy reverse shell di openshift):
+
+> update user set authentication_string=PASSWORD('PraEtoRian82') where User='root';
+
+> commit;
+
+> flush privileges;
