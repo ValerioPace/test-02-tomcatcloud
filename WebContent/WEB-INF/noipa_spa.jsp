@@ -85,7 +85,7 @@
   <script src="<c:url value='/resources/js/vendor/polyfill.min.js'/>"></script>
   <![endif]-->
   
-  <script>__PUBLIC_PATH__='<c:url value='/resourcesjs/'</script>
+  <script>__PUBLIC_PATH__="<c:url value='/resources/js/'/>"</script>
   <script src="<c:url value='/resources/js/IWT.min.js'/>"></script>
   
 </body>
