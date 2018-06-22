@@ -4,7 +4,7 @@
 angular.
   module('noipa.headerModule').
   component('headerComponent', {
-    templateUrl: 'header/header.template.html',
+    templateUrl: 'header.template.html',
     controller: 
       function HeaderController($scope,$http,HEADER_CONFIG) {
         $scope.HEADER_CONFIG = HEADER_CONFIG;
