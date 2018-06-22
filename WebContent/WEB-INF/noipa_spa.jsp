@@ -38,12 +38,12 @@
   <title>NoiPa</title>
   
   <!-- include HTML5shim per Explorer 8 -->
-  <script src="/resources/js/vendor/modernizr.js"></script>
+  <script src="<c:url value='/resources/js/vendor/modernizr.js'/>"></script>
 
-  <link media="all" rel="stylesheet" href="/resources/css/build.css">
-  <link rel="stylesheet" href="/resources/css/header/header.css"/>
+  <link media="all" rel="stylesheet" href="<c:url value='/resources/css/build.css'/>">
+  <link rel="stylesheet" href="<c:url value='/resources/css/header/header.css'/>"/>
 
-  <script src="/resources/js/vendor/jquery.min.js"></script>
+  <script src="<c:url value='/resources/js/vendor/jquery.min.js'/>"></script>
     
   <header-component></header-component>
 </head>
@@ -51,14 +51,14 @@
   
 
   <form-component></form-component>
-  <script src="/resources/js/angular/angular.js"></script>
-  <script src="/resources/js/angular/angular-route.js"></script>
-  <script src="/resources/js/header/header.module.js"></script> 
-  <script src="/resources/js/header/header.config.js"></script>
-  <script src="/resources/js/header/header.component.js"></script>
-  <script src="/resources/js/form/form.module.js"></script> 
-  <script src="/resources/js/form/form.config.js"></script>
-  <script src="/resources/js/form/form.component.js"></script>
+  <script src="<c:url value='/resources/js/angular/angular.js'/>"></script>
+  <script src="<c:url value='/resources/js/angular/angular-route.js'/>"></script>
+  <script src="<c:url value='/resources/js/header/header.module.js'/>"></script> 
+  <script src="<c:url value='/resources/js/header/header.config.js'/>"></script>
+  <script src="<c:url value='/resources/js/header/header.component.js'/>"></script>
+  <script src="<c:url value='/resources/js/form/form.module.js'/>"></script> 
+  <script src="<c:url value='/resources/js/form/form.config.js'/>"></script>
+  <script src="<c:url value='/resources/js/form/form.component.js'/>"></script>
   <script type="text/javascript">
   //Declare app level module which depends on filters, and services
   
@@ -75,18 +75,18 @@
   </script> 
   
   <!--[if IE 8]>
-  <script src="/resources/js/vendor/respond.min.js"></script>
-  <script src="/resources/js/vendor/rem.min.js"></script>
-  <script src="/resources/js/vendor/selectivizr.js"></script>
-  <script src="/resources/js/vendor/slice.js"></script>
+  <script src="<c:url value='/resources/js/vendor/respond.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/rem.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/selectivizr.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/slice.js'/>"></script>
   <![endif]-->
 
   <!--[if lte IE 9]>
-  <script src="/resources/js/vendor/polyfill.min.js"></script>
+  <script src="<c:url value='/resources/js/vendor/polyfill.min.js'/>"></script>
   <![endif]-->
   
-  <script>__PUBLIC_PATH__='/resources/js/'</script>
-  <script src="/resources/js/IWT.min.js"></script>
+  <script>__PUBLIC_PATH__='<c:url value='/resourcesjs/'</script>
+  <script src="<c:url value='/resources/js/IWT.min.js'/>"></script>
   
 </body>
 </html>
