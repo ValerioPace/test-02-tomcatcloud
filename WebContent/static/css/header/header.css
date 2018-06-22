@@ -1,0 +1,19 @@
+/* @define Header; weak */
+
+:root {
+  --Header-navbar-bg: var(--Color-50);
+  --Header-searchTrigger-bg: var(--Color-50);
+  --Header-languages-bg: var(--Color-grey-80);
+  --Header-activeLanguage-bg: var(--Color-80);
+  --Header-language-other-bg: var(--Color-white);
+  --Header-socialIcons-bg: var(--Color-white);
+  --Header-text-color: var(--Color-white);
+  --Header-search-maxWidth: 20em;
+}
+
+.Header-banner{
+  background-color: #0f3c6b;
+}
+.Header-languages{
+  background-color: #0f3c6b;
+} 

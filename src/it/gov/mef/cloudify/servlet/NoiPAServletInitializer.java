@@ -23,6 +23,12 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import it.gov.mef.cloudify.ServiceController;
 import it.gov.mef.cloudify.model.Ente;
@@ -30,9 +36,10 @@ import it.gov.mef.cloudify.model.Ente;
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @EnableTransactionManagement
+@EnableWebMvc
 @ComponentScan(basePackageClasses = ServiceController.class)
 @EntityScan(basePackageClasses = Ente.class)
-public class NoiPAServletInitializer extends SpringBootServletInitializer {
+public class NoiPAServletInitializer extends SpringBootServletInitializer implements WebMvcConfigurer {
  
 	
     @Value("${spring.datasource.jndi-name}")
@@ -73,6 +80,54 @@ public class NoiPAServletInitializer extends SpringBootServletInitializer {
         hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
         return hibernateJpaVendorAdapter;
     }
+    
+    @Bean
+    public ViewResolver viewResolver() {
+    	InternalResourceViewResolver result = new InternalResourceViewResolver();
+	    result.setPrefix("/WEB-INF");
+	    result.setSuffix(".jsp");
+	    return result;
+    }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        
+        registry.addResourceHandler("/resources/**")
+        		.addResourceLocations("/static/", "classpath:/static/")
+        		.setCachePeriod(3600).resourceChain(true)
+        		.addResolver(new PathResourceResolver());
+              
+    }
+    
+    /**
+     * Other interesting beans in web mvc are..
+     * 
+     * 
+     * @Bean
+    public ResourceUrlEncodingFilter resourceUrlEncodingFilter() {
+        ResourceUrlEncodingFilter filter = new ResourceUrlEncodingFilter();
+
+        return filter;
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
+        return cookieLocaleResolver;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(0);
+        return messageSource;
+    }
+     * 
+     */
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

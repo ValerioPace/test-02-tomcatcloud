@@ -21,13 +21,8 @@ public class ServiceController {
 	@Autowired
 	private EnteDao enteDao;
 		
-	@RequestMapping("/")
-	public String hello() {
-		return "L'inverno è arrivato";
-	}
-	
 	@JsonView(value = EnteDto.Public.class)
-	@RequestMapping(value = "/enti/all", method = {RequestMethod.GET})
+	@RequestMapping(value = "/rest/enti/all", method = {RequestMethod.GET})
 	public List<EnteDto> findAllEnti(){
 		
 		List<Ente> enti = enteDao.findAllEnti();

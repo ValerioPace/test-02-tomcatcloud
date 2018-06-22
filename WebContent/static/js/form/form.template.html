@@ -1,0 +1,32 @@
+
+<div class="u-padding-all-s">
+
+    <!--  
+	<div ng-repeat="ente in listEnti()">
+		<p>Ente: {{ente.name}}</p>
+		<p>Indirizzo: {{ente.address}}</p>
+	</div>
+	-->
+	
+	<h2>Table visualization:</h2>
+	
+	<table class="Table Table--withBorder u-text-r-xs">
+	    <caption class="u-hiddenVisually">Enti visualizzati</caption>
+	    <thead>
+	        <tr class="u-border-bottom-xs">
+	        	<th>Nominativo ente</th>
+	            <th>Indirizzo</th>
+	            <th>Data di inizio</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr ng-repeat="ente in listEnti()">
+	    		<td>{{ente.name}}</td>
+	    		<td>{{ente.address}}</td>
+	    		<td>&nbsp;</td>
+	    	</tr>
+	    </tbody>
+    </table>
+        
+	
+</div>
