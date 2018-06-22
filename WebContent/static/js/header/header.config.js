@@ -1,6 +1,6 @@
 angular.module('noipa.headerModule').constant('HEADER_CONFIG', {
   "title": "Header",
-  "userEndpoint": "http://utente-myproject.192.168.99.100.nip.io/demo/saluti",
+  "userEndpoint": "http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test",
   "context": {
     "site": {
       "name": "NoiPa",

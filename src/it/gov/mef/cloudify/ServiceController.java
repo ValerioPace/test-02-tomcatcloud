@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,8 @@ public class ServiceController {
 	private EnteDao enteDao;
 		
 	@JsonView(value = EnteDto.Public.class)
-	@RequestMapping(value = "/rest/enti/all", method = {RequestMethod.GET})
+	@RequestMapping(value = "/rest/enti/all", method = {RequestMethod.GET},
+	produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<EnteDto> findAllEnti(){
 		
 		List<Ente> enti = enteDao.findAllEnti();
