@@ -84,7 +84,7 @@ public class NoiPAServletInitializer extends SpringBootServletInitializer implem
     @Bean
     public ViewResolver viewResolver() {
     	InternalResourceViewResolver result = new InternalResourceViewResolver();
-	    result.setPrefix("/WEB-INF");
+	    result.setPrefix("/WEB-INF/");
 	    result.setSuffix(".jsp");
 	    return result;
     }
