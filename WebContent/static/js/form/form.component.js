@@ -4,7 +4,7 @@
 angular.
   module('noipa.form').
   component('formComponent', {
-    templateUrl: 'form.template.html',
+    templateUrl: '/resources/js/form/form.template.html',
     controller: 
       function formController($scope, $rootScope,$http,FORM_CONFIG) {
         $scope.HEADER_CONFIG = FORM_CONFIG;
