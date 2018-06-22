@@ -70,6 +70,7 @@
   ]).controller('noiPaController', ['$scope', '$rootScope', function($scope, $rootScope) {
 	  
 	  $rootScope.serviceUrl = '<c:out value="${serviceUrl}"/>';
+	  $rootScope.resourceUrl = '<c:url value="/resources"/>';
 	}]);
   
   </script> 
