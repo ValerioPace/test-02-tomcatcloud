@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-	@Value("spring.rest.serviceUrl")
+	@Value("${spring.rest.serviceUrl}")
 	private String serviceUrl;
 	
 	@RequestMapping("/")
