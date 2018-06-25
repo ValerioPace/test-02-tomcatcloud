@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 public class Ente {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="SEQU_ENTE")
     private Long sequEnte;
 	

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +46,49 @@ public class ServiceController {
 		}
 		
 		return result;		
-	} 
+	}
+	
+	@JsonView(value = EnteDto.Public.class)
+	@RequestMapping(value = "/rest/enti/add", method = {RequestMethod.POST},
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public EnteDto addEnte(@RequestBody EnteDto newEnte) {
+			
+		Ente ente = enteDao.addEnte(newEnte);
+		
+		EnteDto result = new EnteDto();
+		result.setName(ente.getName());
+		result.setAddress(ente.getAddress());
+		result.setStartDate(ente.getStartDate());
+		
+		return result;
+		
+	}
+	
+	@JsonView(value = EnteDto.Public.class)
+	@RequestMapping(value = "/rest/enti/update", method = {RequestMethod.POST},
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public EnteDto updateEnte(@RequestBody EnteDto newEnte) {
+			
+		Ente ente = enteDao.updateEnte(newEnte);
+		
+		EnteDto result = new EnteDto();
+		result.setName(ente.getName());
+		result.setAddress(ente.getAddress());
+		result.setStartDate(ente.getStartDate());
+		
+		return result;
+		
+	}
+	
+	@RequestMapping(value = "/rest/enti/delete/{enteId}", method = {RequestMethod.POST},
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public boolean deleteEnte(@PathVariable("enteId") Long enteId) {
+			
+		Ente ente = enteDao.deleteEnte(enteId);
+		
+		return true;
+		
+	}
 }
