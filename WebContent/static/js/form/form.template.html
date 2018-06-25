@@ -1,16 +1,22 @@
 
-<div class="u-padding-all-s">
-
-    <!--  
-	<div ng-repeat="ente in listEnti()">
+<div class="u-padding-all-s" style="position:relative;top:200px" ng-init="listEnti()">
+  
+	<div ng-repeat="ente in listEntiResult" class="u-padding-top-s">
 		<p>Ente: {{ente.name}}</p>
 		<p>Indirizzo: {{ente.address}}</p>
 	</div>
-	-->
 	
+	<a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true">
+    	<span class="Icon Icon-expand"></span>
+	</a>
+	
+	<div>
+		<button type="button" class="Button Button--default u-text-r-xs js-fr-dialogmodal-open" aria-controls="addEnteDialog">+ Aggiungi Ente</button>
+    </div>
+    
 	<h2>Table visualization:</h2>
 	
-	<table class="Table Table--withBorder u-text-r-xs">
+	<table class="Table Table--withBorder u-text-r-xs u-padding-top-s" style="position:relative;top:200px">
 	    <caption class="u-hiddenVisually">Enti visualizzati</caption>
 	    <thead>
 	        <tr class="u-border-bottom-xs">
@@ -20,13 +26,58 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	    	<tr ng-repeat="ente in listEnti()">
+	    	<tr ng-repeat="ente in listEntiResult">
 	    		<td>{{ente.name}}</td>
 	    		<td>{{ente.address}}</td>
 	    		<td>&nbsp;</td>
 	    	</tr>
 	    </tbody>
     </table>
+    
+    <div class="Dialog js-fr-dialogmodal" id="addEnteDialog">
+    <div class="
+      Dialog-content
+      Dialog-content--centered
+      u-background-white
+      u-layout-prose
+      u-margin-all-xl
+      u-padding-all-xl
+      js-fr-dialogmodal-modal
+    " aria-labelledby="modal-title">
+    
+       <form class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose">
+	    <div class="Prose Alert Alert--info">
+	        <p>Tutti i campi sono richiesti salvo dove espressamente indicato</p>
+	    </div>
+	    
+	    <fieldset class="Form-fieldset">
+        <legend class="Form-legend">Inserimento nuovo ente</legend>
+
+        <div class="Form-field">
+    	 <label class="Form-label is-required" for="nome">Nome</label>
+            <input class="Form-input" id="nome" aria-required="true" ng-model="ente.name" required>
+        </div>
+
+        <div class="Form-field">
+            <label class="Form-label is-required" for="address">Indirizzo</label>
+            <input class="Form-input" id="address" aria-required="true" ng-model="ente.address" required>
+        </div>
+        
+        <div class="Form-field">
+            <label class="Form-label" for="ddn">Data di inizio attivit&agrave; <small>(opzionale)</small></label>
+            <input type="text" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="dd/MM/yyyy" aria-describedby="info-ddn">
+            <div role="tooltip" id="info-ddn">nel formato GG/MM/ANNO</div>
+        </div>
+        
+        <div class="Form-field Grid-cell u-textRight">
+        	<button type="button" class="Button Button--default u-text-xs">Invia</button>
+        	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
+    	</div>
+        
+       </form>
+    </div>
+</div>
+    
         
 	
 </div>

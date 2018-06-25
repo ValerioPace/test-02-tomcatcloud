@@ -44,10 +44,12 @@
   <link rel="stylesheet" href="<c:url value='/resources/css/header/header.css'/>"/>
 
   <script src="<c:url value='/resources/js/vendor/jquery.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/momentjs.min.js'/>"></script>
     
   <header-component></header-component>
 </head>
-<body class="t-Pac" ng-controller="noiPaController">
+<!--  <body class="t-Pac" ng-controller="noiPaController"> -->
+<body class="t-Pac">
   
 
   <form-component></form-component>
@@ -62,16 +64,69 @@
   <script type="text/javascript">
   //Declare app level module which depends on filters, and services
   
-  angular.module('noipa', [
+  var moment = moment();
+  
+  var ngApp = angular.module('noipa', [
     'noipa.headerModule',
     'noipa.form',
     //,
     //'ngRoute'
-  ]).controller('noiPaController', ['$scope', '$rootScope', function($scope, $rootScope) {
-	  
-	  $rootScope.serviceUrl = '<c:out value="${serviceUrl}"/>';
-	  $rootScope.resourceUrl = '<c:url value="/resources"/>';
-	}]);
+  ]);
+  
+  ngApp.directive('moDateInput', function ($window) {
+	    return {
+	        require:'^ngModel',
+	        restrict:'A',
+	        link:function (scope, elm, attrs, ctrl) {
+	            var moment = $window.moment;
+	            var dateFormat = attrs.moMediumDate;
+	            attrs.$observe('moDateInput', function (newValue) {
+	                if (dateFormat == newValue || !ctrl.$modelValue) return;
+	                dateFormat = newValue;
+	                ctrl.$modelValue = new Date(ctrl.$setViewValue);
+	            });
+
+	            ctrl.$formatters.unshift(function (modelValue) {
+	                scope = scope;
+	                if (!dateFormat || !modelValue) return "";
+	                var retVal = moment(modelValue).format(dateFormat);
+	                return retVal;
+	            });
+
+	            ctrl.$parsers.unshift(function (viewValue) {
+	                scope = scope;
+	                var date = moment(viewValue, dateFormat);
+	                return (date && date.isValid() && date.year() > 1950 ) ? date.toDate() : "";
+	            });
+	        }
+	    };
+	});
+  
+  /*
+  angModule.directive('moChangeProxy', function ($parse) {
+	    return {
+	        require:'^ngModel',
+	        restrict:'A',
+	        link:function (scope, elm, attrs, ctrl) {
+	            var proxyExp = attrs.moChangeProxy;
+	            var modelExp = attrs.ngModel;
+	            scope.$watch(proxyExp, function (nVal) {
+	                if (nVal != ctrl.$modelValue)
+	                    $parse(modelExp).assign(scope, nVal);
+	            });
+	            elm.bind('blur', function () {
+	                var proxyVal = scope.$eval(proxyExp);
+	                if(ctrl.$modelValue != proxyVal) {
+	                    scope.$apply(function(){
+	                        $parse(proxyExp).assign(scope, ctrl.$modelValue);
+	                    });
+	                }
+	            });
+	        }
+	    };
+	});
+  */
+  
   
   </script> 
   
