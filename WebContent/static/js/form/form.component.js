@@ -21,6 +21,12 @@ angular.
 	          });
                    
         };
+        
+        $scope.addEnte = function(ente){
+        	
+        	console.log("popup add ente committed, ente: " + JSON.stringify(ente));
+        };
+        
         /*
         $scope.addEntePopup = function(){
         	      

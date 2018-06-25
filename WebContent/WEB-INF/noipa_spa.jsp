@@ -63,9 +63,7 @@
   <script src="<c:url value='/resources/js/form/form.component.js'/>"></script>
   <script type="text/javascript">
   //Declare app level module which depends on filters, and services
-  
-  var moment = moment();
-  
+   
   var ngApp = angular.module('noipa', [
     'noipa.headerModule',
     'noipa.form',
@@ -81,7 +79,8 @@
 	            var moment = $window.moment;
 	            var dateFormat = attrs.moMediumDate;
 	            attrs.$observe('moDateInput', function (newValue) {
-	                if (dateFormat == newValue || !ctrl.$modelValue) return;
+	                //if (dateFormat == newValue || !ctrl.$modelValue) return;
+	                if (dateFormat == newValue) return;
 	                dateFormat = newValue;
 	                ctrl.$modelValue = new Date(ctrl.$setViewValue);
 	            });

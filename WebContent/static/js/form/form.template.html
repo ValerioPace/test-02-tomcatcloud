@@ -65,12 +65,12 @@
         
         <div class="Form-field">
             <label class="Form-label" for="ddn">Data di inizio attivit&agrave; <small>(opzionale)</small></label>
-            <input type="text" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="dd/MM/yyyy" aria-describedby="info-ddn">
+            <input type="text" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="DD/MM/YYYY" aria-describedby="info-ddn">
             <div role="tooltip" id="info-ddn">nel formato GG/MM/ANNO</div>
         </div>
         
         <div class="Form-field Grid-cell u-textRight">
-        	<button type="button" class="Button Button--default u-text-xs">Invia</button>
+        	<button type="button" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Invia</button>
         	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
     	</div>
         
