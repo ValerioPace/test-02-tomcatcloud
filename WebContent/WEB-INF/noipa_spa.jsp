@@ -46,30 +46,211 @@
   <script src="<c:url value='/resources/js/vendor/jquery.min.js'/>"></script>
   <script src="<c:url value='/resources/js/vendor/momentjs.min.js'/>"></script>
     
-  <header-component></header-component>
-</head>
-<!--  <body class="t-Pac" ng-controller="noiPaController"> -->
-<body class="t-Pac">
+  <header class="Header Headroom--fixed js-Headroo u-hiddenPrint">
+  <div class="Header-banner  ">
+    <div class=" Header-owner Headroom-hideme u-border-bottom-xxs  ">
+      <a href=""><span>< Torna all'area pubblica</span></a>
+      <div class="Header-languages ">
+          <a href="#languages" data-menu-trigger="languages" class="Header-language u-border-none u-zindex-max u-inlineBlock">
+            <span class="u-hiddenVisually">lingua attiva:</span>
+            <span > User</span>
+            <!-- <span ng-class="u-hidden u-md-inlineBlock u-lg-inlineBlock">Italiano</span> -->
+            <span class="Icon Icon-expand u-padding-left-xs"></span>
+          </a>
+          <!--
+          <div id="languages" data-menu class="Dropdown-menu Header-language-other u-jsVisibilityHidden u-nojsDisplayNone">
+            <span class="Icon-drop-down Dropdown-arrow u-color-white"></span>
+            <ul>
+              <li><a href="#1" class="u-padding-r-all"><span lang="en">English</span></a></li>
+              <li><a href="#3" class="u-padding-r-all"><span lang="de">Deutsch</span></a></li>
+              <li><a href="#3" class="u-padding-r-all"><span lang="it">Italiano</span></a></li>
+              
+            </ul>
+          </div>
+          -->
+      </div>
+    </div>
+  </div>
+
+  <div class="Header-navbar u-background-50">
+      <div class="u-layout-wide Grid Grid--alignMiddle u-layoutCenter">
+        <div class="Header-logo Grid-cell" aria-hidden="true">
+          <a href="" tabindex="-1">
+            <img src="//placehold.it/75x80" alt="">
+          </a>
+        </div>
+  
+        <div class="Header-title Grid-cell">
+          <h1 class="Header-titleLink">
+            <a href="/">
+              NoiPa<br>
+              <small></small>
+            </a>
+          </h1>
+        </div>
+        
+       
+        <div class="Header-utils Grid-cell">
+          <div class="Header-search" id="header-search">
+            <form class="Form">
+              <div class="Form-field Form-field--withPlaceholder Grid u-background-white u-color-grey-30 u-borderRadius-s" role="search">
+                <input class="Form-input Form-input--ultraLean Grid-cell u-sizeFill u-text-r-s u-color-black u-text-r-xs u-borderRadius-s" required="" id="cerca">
+                <label class="Form-label u-color-grey-50 u-text-r-xxs" for="cerca">Cerca</label>
+                <button class="Grid-cell u-sizeFit Icon-search Icon--rotated u-color-grey-50 u-padding-all-s u-textWeight-700" title="Avvia la ricerca" aria-label="Avvia la ricerca">
+              </button>
+              </div>
+            </form>
+           </div>
+        </div>
+        <div class="Header-toggle Grid-cell">
+          <a class="Hamburger-toggleContainer js-fr-offcanvas-open u-nojsDisplayInlineBlock u-lg-hidden u-md-hidden" href="#menu"
+            aria-controls="menu" aria-label="accedi al menu" title="accedi al menu">
+            <span class="Hamburger-toggle" role="presentation"></span>
+            <span class="Header-toggleText" role="presentation">Menu</span>
+          </a>
+        </div>
+  
+      </div>
+    </div>
+    <!-- Header-navbar -->
   
 
-  <form-component></form-component>
+</header>
+</head>
+<!--  <body class="t-Pac" ng-controller="noiPaController"> -->
+<body class="t-Pac" ng-controller="noiPaController">
+  
+
+  <div class="u-padding-all-s" style="position:relative;top:200px" ng-init="listEnti()">
+  
+	<a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true">
+    	<span class="Icon Icon-expand"></span>
+	</a>
+	
+	<div>
+		<button type="button" class="Button Button--default u-text-r-xs js-fr-dialogmodal-open" aria-controls="addEnteDialog">+ Aggiungi Ente</button>
+    </div>
+    
+	<h2>Elenco Enti PA</h2>
+	
+	<table class="Table Table--withBorder u-text-r-xs u-padding-top-s" style="position:relative;top:200px">
+	    <caption class="u-hiddenVisually">Enti visualizzati</caption>
+	    <thead>
+	        <tr class="u-border-bottom-xs">
+	        	<th>Nominativo ente</th>
+	            <th>Indirizzo</th>
+	            <th>Data di inizio</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr ng-repeat="ente in listEntiResult">
+	    		<td>{{ente.name}}</td>
+	    		<td>{{ente.address}}</td>
+	    		<td>&nbsp;</td>
+	    	</tr>
+	    </tbody>
+    </table>
+    
+    <div class="Dialog js-fr-dialogmodal" id="addEnteDialog">
+    <div class="
+      Dialog-content
+      Dialog-content--centered
+      u-background-white
+      u-layout-prose
+      u-margin-all-xl
+      u-padding-all-xl
+      js-fr-dialogmodal-modal
+    " aria-labelledby="modal-title" style="z-index:1000">
+    
+       <form class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose">
+	    <div class="Prose Alert Alert--info">
+	        <p>Tutti i campi sono richiesti salvo dove espressamente indicato</p>
+	    </div>
+	    
+	    <fieldset class="Form-fieldset">
+        <legend class="Form-legend">Inserimento nuovo ente</legend>
+
+        <div class="Form-field">
+    	 <label class="Form-label is-required" for="nome">Nome</label>
+            <input class="Form-input" id="nome" aria-required="true" ng-model="ente.name" required>
+        </div>
+
+        <div class="Form-field">
+            <label class="Form-label is-required" for="address">Indirizzo</label>
+            <input class="Form-input" id="address" aria-required="true" ng-model="ente.address" required>
+        </div>
+        
+        <div class="Form-field">
+            <label class="Form-label" for="ddn">Data di inizio attivit&agrave; <small>(opzionale)</small></label>
+            <input type="text" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="DD/MM/YYYY" aria-describedby="info-ddn">
+            <div role="tooltip" id="info-ddn">nel formato GG/MM/ANNO</div>
+        </div>
+        
+        <div class="Form-field Grid-cell u-textRight">
+        	<button type="button" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Invia</button>
+        	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
+    	</div>
+        
+       </form>
+    </div>
+</div>
+    
+        
+	
+</div>
+  
   <script src="<c:url value='/resources/js/angular/angular.js'/>"></script>
   <script src="<c:url value='/resources/js/angular/angular-route.js'/>"></script>
-  <script src="<c:url value='/resources/js/header/header.module.js'/>"></script> 
-  <script src="<c:url value='/resources/js/header/header.config.js'/>"></script>
-  <script src="<c:url value='/resources/js/header/header.component.js'/>"></script>
-  <script src="<c:url value='/resources/js/form/form.module.js'/>"></script> 
-  <script src="<c:url value='/resources/js/form/form.config.js'/>"></script>
-  <script src="<c:url value='/resources/js/form/form.component.js'/>"></script>
-  <script type="text/javascript">
+   <script type="text/javascript">
   //Declare app level module which depends on filters, and services
    
   var ngApp = angular.module('noipa', [
-    'noipa.headerModule',
-    'noipa.form',
-    //,
-    //'ngRoute'
+   
   ]);
+  
+  ngApp.controller('noiPaController', function($scope,$http) {
+	   
+	  $scope.listEntiResult = [];
+      $scope.ente = {"name": "", "address": "", "startDate": new Date()};
+      $scope.listEnti = function (){
+      	       	
+        $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/all")
+        
+	          .then(function(response) {
+	        	  console.log("enti: " + JSON.stringify(response.data));
+	              $scope.listEntiResult = response.data;
+	          });
+                 
+      };
+      
+      $scope.addEnte = function(ente){
+      	
+      	console.log("popup add ente committed, ente: " + JSON.stringify(ente));
+      	
+      	var enteWithFormattedDate = {
+      			"name":ente.name,
+      			"address":ente.address,
+      			"startDate":moment(ente.startDate).format("DD/MM/YYYY")
+      	};
+      	
+      	$http.post("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/add",
+      			enteWithFormattedDate, {"timeout": 5000})         
+	          .then(function(response) {
+	        	  console.log("new ente: " + JSON.stringify(response.data));
+	        	  $scope.ente = response.data;
+	        	  
+	        	  $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/all")
+	              
+			          .then(function(response) {
+			        	  console.log("enti: " + JSON.stringify(response.data));
+			              $scope.listEntiResult = response.data;
+			          });
+	        	  	        	  
+	             
+	          });
+      	
+      };
+  });
   
   ngApp.directive('moDateInput', function ($window) {
 	    return {
@@ -127,8 +308,8 @@
   */
   
   
-  </script> 
-  
+  </script>
+ 
   <!--[if IE 8]>
   <script src="<c:url value='/resources/js/vendor/respond.min.js'/>"></script>
   <script src="<c:url value='/resources/js/vendor/rem.min.js'/>"></script>
