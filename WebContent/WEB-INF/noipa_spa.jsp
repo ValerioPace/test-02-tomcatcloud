@@ -123,10 +123,6 @@
 
   <div class="u-padding-all-s" style="position:relative;top:200px" ng-init="listEnti()">
   
-	<a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true">
-    	<span class="Icon Icon-expand"></span>
-	</a>
-	
 	<div>
 		<button type="button" class="Button Button--default u-text-r-xs js-fr-dialogmodal-open" aria-controls="addEnteDialog">+ Aggiungi Ente</button>
     </div>
@@ -151,7 +147,7 @@
 	    </tbody>
     </table>
     
-    <div class="Dialog js-fr-dialogmodal" id="addEnteDialog">
+    <div class="Dialog js-fr-dialogmodal" id="addEnteDialog" style="z-index:1000">
     <div class="
       Dialog-content
       Dialog-content--centered
@@ -160,7 +156,7 @@
       u-margin-all-xl
       u-padding-all-xl
       js-fr-dialogmodal-modal
-    " aria-labelledby="modal-title" style="z-index:1000">
+    " aria-labelledby="modal-title">
     
        <form class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose">
 	    <div class="Prose Alert Alert--info">
@@ -190,12 +186,14 @@
         	<button type="button" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Invia</button>
         	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
     	</div>
-        
+    	
        </form>
     </div>
 </div>
     
-        
+      <a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true" style="position:relative;top:300px">
+    		<span class="Icon Icon-expand"></span>
+		</a>  
 	
 </div>
   
