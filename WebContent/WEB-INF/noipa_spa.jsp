@@ -121,7 +121,20 @@
 <body class="t-Pac" ng-controller="noiPaController">
   
 
-  <div class="u-padding-all-s" style="position:relative;top:200px" ng-init="listEnti()">
+  <div class="u-padding-all-s" style="position:relative;top:200px" ng-init="initApp()">
+  
+    <div ng-show="successMessage.length > 0" fade class="Prose Alert Alert--success Alert--withIcon u-layout-prose u-padding-r-bottom u-padding-r-right u-margin-r-bottom" role="alert">
+	    <h2 class="u-text-h3">
+	        {{successMessage}}
+	    </h2>
+	</div>
+	
+	<div ng-show="errorMessage.length > 0" fade class="Prose Alert Alert--error Alert--withIcon u-layout-prose u-padding-r-bottom u-padding-r-right u-margin-r-bottom" role="alert">
+	    <h2 class="u-text-h3">
+	        {{errorMessage}}
+	    </h2>
+	</div>
+  
   
 	<div>
 		<button type="button" class="Button Button--default u-text-r-xs js-fr-dialogmodal-open" aria-controls="addEnteDialog">+ Aggiungi Ente</button>
@@ -136,13 +149,33 @@
 	        	<th>Nominativo ente</th>
 	            <th>Indirizzo</th>
 	            <th>Data di inizio</th>
+	            <th>Azioni</th>
 	        </tr>
 	    </thead>
 	    <tbody>
 	    	<tr ng-repeat="ente in listEntiResult">
 	    		<td>{{ente.name}}</td>
 	    		<td>{{ente.address}}</td>
-	    		<td>&nbsp;</td>
+	    		<td>{{ente.startDate}}</td>
+	    		<td>
+	    			<ul class="Grid">
+    					<li class="Grid-cell u-sm-size1of2 u-md-size1of4 u-lg-size1of6">
+    						<div class="u-padding-r-all">						  
+            					<span class="u-text-r-l Icon Icon-search" ng-click="showEnte(ente)"></span>     					  
+        					</div>
+    					</li>
+    					<li class="Grid-cell u-sm-size1of2 u-md-size1of4 u-lg-size1of6">
+    						<div class="u-padding-r-all">		  
+            					<span class="u-text-r-l Icon Icon-settings" ng-click="updateEnte(ente)"></span>
+        					</div>
+    					</li>
+    					<li class="Grid-cell u-sm-size1of2 u-md-size1of4 u-lg-size1of6">
+    						<div class="u-padding-r-all">
+            					<span class="u-text-r-l Icon Icon-cancel" ng-click="deleteEnte(ente.enteId)"></span>
+        					</div>
+    					</li>
+    				</ul>
+	    		</td>
 	    	</tr>
 	    </tbody>
     </table>
@@ -159,12 +192,13 @@
     " aria-labelledby="modal-title">
     
        <form class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose">
-	    <div class="Prose Alert Alert--info">
+	    <div class="Prose Alert Alert--info" ng-if="action!='update' && action!='create'">
 	        <p>Tutti i campi sono richiesti salvo dove espressamente indicato</p>
 	    </div>
 	    
-	    <fieldset class="Form-fieldset">
-        <legend class="Form-legend">Inserimento nuovo ente</legend>
+	    <fieldset class="Form-fieldset" ng-switch="action">
+        <legend class="Form-legend" ng-switch-when="create">Inserimento nuovo ente</legend>
+        <legend class="Form-legend" ng-switch-when="update">Aggiornamento ente</legend>
 
         <div class="Form-field">
     	 <label class="Form-label is-required" for="nome">Nome</label>
@@ -182,16 +216,19 @@
             <div role="tooltip" id="info-ddn">nel formato GG/MM/ANNO</div>
         </div>
         
-        <div class="Form-field Grid-cell u-textRight">
-        	<button type="button" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Invia</button>
+        <div class="Form-field Grid-cell u-textRight" ng-switch="action">
+        	<button type="button" ng-switch-when="show" class="Button Button--default u-text-xs" ng-disabled="true">Hide</button>
+        	<button type="button" ng-switch-when="update" class="Button Button--default u-text-xs" ng-click="doUpdateEnte(ente)">Aggiorna</button>
+        	<button type="button" ng-switch-when="create" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Salva</button>
         	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
     	</div>
+    	</fieldset>
     	
        </form>
     </div>
 </div>
     
-      <a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true" style="position:relative;top:300px">
+      <a href="#" class="Forward Forward--floating js-scrollTo u-color-70" aria-hidden="true" style="position:relative;top:360px">
     		<span class="Icon Icon-expand"></span>
 		</a>  
 	
@@ -209,9 +246,27 @@
   ngApp.controller('noiPaController', function($scope,$http) {
 	   
 	  $scope.listEntiResult = [];
-      $scope.ente = {"name": "", "address": "", "startDate": new Date()};
+      $scope.ente = {"name": "", "address": "", "startDate": new Date()};     
+      $scope.action="create";
+      
+      $scope.initApp = function (){
+    	  
+      	$scope.successMessage="";
+      	$scope.errorMessage="";
+      	$scope.action="create";
+        	       	
+          $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/all")
+          
+  	          .then(function(response) {
+  	        	  console.log("enti: " + JSON.stringify(response.data));
+  	              $scope.listEntiResult = response.data;
+  	          });
+                   
+        };
+      
       $scope.listEnti = function (){
-      	       	
+    	         	
+    	$scope.action="create";
         $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/all")
         
 	          .then(function(response) {
@@ -224,6 +279,7 @@
       $scope.addEnte = function(ente){
       	
       	console.log("popup add ente committed, ente: " + JSON.stringify(ente));
+      	$scope.action="create";
       	
       	var enteWithFormattedDate = {
       			"name":ente.name,
@@ -236,6 +292,7 @@
 	          .then(function(response) {
 	        	  console.log("new ente: " + JSON.stringify(response.data));
 	        	  $scope.ente = response.data;
+	        	  $scope.successMessage="Inserimento nuovo ente "+ $scope.ente.name +" avvenuto con successo";
 	        	  
 	        	  $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/all")
 	              
@@ -247,6 +304,77 @@
 	             
 	          });
       	
+      };
+      
+      $scope.showEnte = function(ente){
+    	  
+    	  console.log("show ente: " + JSON.stringify(ente));
+    	  $scope.action="show";
+    	  
+    	  $http.post("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/show",
+    			  ente, {"timeout": 5000})
+        			.then(function(response) {
+        				
+        				var enteToUpdate = response.data;
+          				$scope.ente = enteToUpdate;
+          				
+          				angular.element("button[aria-controls='addEnteDialog']").click();
+          });
+    	  
+      };
+      
+	  $scope.updateEnte = function(ente){
+		  
+		  console.log("update ente: " + JSON.stringify(ente));
+		  $scope.action="update";
+		  
+		  $http.post("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/show",
+				  ente, {"timeout": 5000})
+      			.then(function(response) {
+      				
+      				var enteToUpdate = response.data;
+      				$scope.ente = enteToUpdate;
+      				
+      				angular.element("button[aria-controls='addEnteDialog']").click();
+      				
+      	  });
+      };
+      
+	 $scope.doUpdateEnte = function(ente){
+		  
+		  console.log("update ente: " + JSON.stringify(ente));
+		  var enteWithFormattedDate = {
+				    "enteId":ente.enteId,
+	      			"name":ente.name,
+	      			"address":ente.address,
+	      			"startDate":moment(ente.startDate).format("DD/MM/YYYY")
+	      	};
+		  
+		  $http.post("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/update",
+				  enteWithFormattedDate, {"timeout": 5000})
+	      			.then(function(response) {
+	      				
+	      				var enteResult = response.data;
+	      				$scope.successMessage="Ente aggiornato correttamente: " + enteResult.name;
+	      				$scope.listEnti();
+	      				
+	      });
+      };
+      
+	  $scope.deleteEnte = function(enteId){
+    	  
+		  console.log("delete ente id: " + enteId);
+		  $scope.action="delete";
+		  
+		  $http.get("http://test02-app-test-noipa-cloud.192.168.99.100.nip.io/noipa-test/rest/enti/delete/" + enteId)
+			  .then(function(response) {
+				  
+	        	  console.log("Ente cancellato: " + enteId);
+	              $scope.successMessage="Ente cancellato: " + enteId;
+	              
+	              $scope.listEnti();
+				  
+	      });
       };
   });
   
@@ -267,18 +395,61 @@
 	            ctrl.$formatters.unshift(function (modelValue) {
 	                scope = scope;
 	                if (!dateFormat || !modelValue) return "";
-	                var retVal = moment(modelValue).format(dateFormat);
+	                
+	                var datePattern = /\d{1,2}\/\d{2}\/\d{4}/g;
+	                
+	                var retVal = modelValue; 
+	                
+	                if(angular.isString(modelValue) && datePattern.test(modelValue)){
+	                	retVal = modelValue;
+	                }
+	                else{  	
+	                	retVal = moment(modelValue).format(dateFormat);
+	                }
+	                
 	                return retVal;
 	            });
 
 	            ctrl.$parsers.unshift(function (viewValue) {
 	                scope = scope;
-	                var date = moment(viewValue, dateFormat);
+	                
+	                var date = null;
+	                
+	                var datePattern = /\d{1,2}\/\d{2}\/\d{4}/g;
+	                if(angular.isString(viewValue) && datePattern.test(viewValue)){	                
+	                  date = moment(viewValue, dateFormat);
+	                }
+	                else{
+	                	date = moment(viewValue);
+	                }
+	                
 	                return (date && date.isValid() && date.year() > 1950 ) ? date.toDate() : "";
 	            });
 	        }
 	    };
 	});
+  
+    ngApp.directive('fade', function () {
+	    return {
+	        restrict: 'AC',
+	        link: function (scope, element, attrs) {
+	        	
+	        	scope.$watch('successMessage', function(newvalue,oldvalue){
+	        		
+	        		if(newvalue != oldvalue){
+		        		if(element.css("display") != "none"){
+			            	element.fadeOut(5000);
+			        	}
+			        	else{
+			            	element.fadeIn(2000);
+			        	}
+	        		}
+	        	});
+	        	
+	        }
+	    };
+	});
+    
   
   /*
   angModule.directive('moChangeProxy', function ($parse) {

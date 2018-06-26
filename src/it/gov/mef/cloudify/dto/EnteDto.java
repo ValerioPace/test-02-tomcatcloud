@@ -16,13 +16,21 @@ public class EnteDto implements Serializable {
 	private static final long serialVersionUID = 3336224317481447724L;
 	
 	@JsonView(EnteDto.Public.class)
+	Long enteId;
+	@JsonView(EnteDto.Public.class)
 	String name;
 	@JsonView(EnteDto.Public.class)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	Date startDate;
 	@JsonView(EnteDto.Public.class)
 	String address;
-	
+		
+	public Long getEnteId() {
+		return enteId;
+	}
+	public void setEnteId(Long enteId) {
+		this.enteId = enteId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -45,6 +53,7 @@ public class EnteDto implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((enteId == null) ? 0 : enteId.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
@@ -59,6 +68,11 @@ public class EnteDto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		EnteDto other = (EnteDto) obj;
+		if (enteId == null) {
+			if (other.enteId != null)
+				return false;
+		} else if (!enteId.equals(other.enteId))
+			return false;
 		if (address == null) {
 			if (other.address != null)
 				return false;
@@ -78,7 +92,11 @@ public class EnteDto implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "EnteDto [name=" + name + ", startDate=" + startDate + ", address=" + address + "]";
+		return "EnteDto ["
+				+ "enteId=" + enteId 
+				+ ", name=" + name 
+				+ ", startDate=" + startDate 
+				+ ", address=" + address + "]";
 	}
 	
 	

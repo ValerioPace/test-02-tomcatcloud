@@ -37,6 +37,7 @@ public class ServiceController {
 			for(Ente ente : enti) {
 				
 				EnteDto item = new EnteDto();
+				item.setEnteId(ente.getSequEnte());
 				item.setName(ente.getName());
 				item.setAddress(ente.getAddress());
 				item.setStartDate(ente.getStartDate());
@@ -57,6 +58,25 @@ public class ServiceController {
 		Ente ente = enteDao.addEnte(newEnte);
 		
 		EnteDto result = new EnteDto();
+		result.setEnteId(ente.getSequEnte());
+		result.setName(ente.getName());
+		result.setAddress(ente.getAddress());
+		result.setStartDate(ente.getStartDate());
+		
+		return result;
+		
+	}
+	
+	@JsonView(value = EnteDto.Public.class)
+	@RequestMapping(value = "/rest/enti/show", method = {RequestMethod.POST},
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public EnteDto showEnte(@RequestBody EnteDto enteDto) {
+			
+		Ente ente = enteDao.findEnteByName(enteDto.getName());
+		
+		EnteDto result = new EnteDto();
+		result.setEnteId(ente.getSequEnte());
 		result.setName(ente.getName());
 		result.setAddress(ente.getAddress());
 		result.setStartDate(ente.getStartDate());
@@ -74,6 +94,7 @@ public class ServiceController {
 		Ente ente = enteDao.updateEnte(newEnte);
 		
 		EnteDto result = new EnteDto();
+		result.setEnteId(ente.getSequEnte());
 		result.setName(ente.getName());
 		result.setAddress(ente.getAddress());
 		result.setStartDate(ente.getStartDate());
@@ -82,8 +103,7 @@ public class ServiceController {
 		
 	}
 	
-	@RequestMapping(value = "/rest/enti/delete/{enteId}", method = {RequestMethod.POST},
-			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/enti/delete/{enteId}", method = {RequestMethod.GET, RequestMethod.POST})
 	public boolean deleteEnte(@PathVariable("enteId") Long enteId) {
 			
 		Ente ente = enteDao.deleteEnte(enteId);
