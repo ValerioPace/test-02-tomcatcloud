@@ -191,7 +191,7 @@
       js-fr-dialogmodal-modal
     " aria-labelledby="modal-title">
     
-       <form class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose">
+       <form name="enteForm" class="Form Form--spaced u-padding-all-xl u-background-grey-10 u-text-r-xs u-layout-prose" novalidate>
 	    <div class="Prose Alert Alert--info" ng-if="action!='update' && action!='create'">
 	        <p>Tutti i campi sono richiesti salvo dove espressamente indicato</p>
 	    </div>
@@ -202,24 +202,35 @@
 
         <div class="Form-field">
     	 <label class="Form-label is-required" for="nome">Nome</label>
-            <input class="Form-input" id="nome" aria-required="true" ng-model="ente.name" required>
+    	  	<span style="color:red;display:block" ng-show="enteForm.nome.$dirty && enteForm.nome.$invalid">
+				<span ng-show="enteForm.nome.$error.required">Nome Ente obbligatorio.</span>	
+			</span>
+            <input class="Form-input" name="nome" id="nome" aria-required="true" ng-model="ente.name" required>
         </div>
 
         <div class="Form-field">
             <label class="Form-label is-required" for="address">Indirizzo</label>
-            <input class="Form-input" id="address" aria-required="true" ng-model="ente.address" required>
+            <span style="color:red;display:block" ng-show="enteForm.address.$dirty && enteForm.address.$invalid">
+				<span ng-show="enteForm.address.$error.required">Indirizzo obbligatorio.</span>	
+				<span ng-show="enteForm.address.$error.pattern">Indirizzo non valido secondo il pattern /(\w+)\s*-\s*[0-9]{5}\s+\w+\(\w{2}\)/ e.g: Piazza Euclide 7 - 00134 ROMA(RM)</span>
+			</span>
+            <input class="Form-input" name="address" id="address" aria-required="true" ng-model="ente.address" required ng-pattern="/(\w+)\s*-\s*[0-9]{5}\s+\w+\(\w{2}\)/">
         </div>
         
         <div class="Form-field">
             <label class="Form-label" for="ddn">Data di inizio attivit&agrave; <small>(opzionale)</small></label>
-            <input type="text" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="DD/MM/YYYY" aria-describedby="info-ddn">
+            <span style="color:red;display:block" ng-show="enteForm.ddn.$dirty && enteForm.ddn.$invalid">
+				<span ng-show="enteForm.ddn.$error.required">Data di inizio richiesta.</span>
+				<span ng-show="enteForm.ddn.$error.pattern">Data di inizio non valida (DD/MM/YYYY).</span>
+			</span>
+            <input type="text" name="ddn" class="Form-input" id="ddn" ng-model="ente.startDate" mo-date-input="DD/MM/YYYY" ng-pattern="/\d{2}\/\d{2}\/\d{4}/" aria-describedby="info-ddn">
             <div role="tooltip" id="info-ddn">nel formato GG/MM/ANNO</div>
         </div>
         
         <div class="Form-field Grid-cell u-textRight" ng-switch="action">
         	<button type="button" ng-switch-when="show" class="Button Button--default u-text-xs" ng-disabled="true">Hide</button>
-        	<button type="button" ng-switch-when="update" class="Button Button--default u-text-xs" ng-click="doUpdateEnte(ente)">Aggiorna</button>
-        	<button type="button" ng-switch-when="create" class="Button Button--default u-text-xs" ng-click="addEnte(ente)">Salva</button>
+        	<button type="button" ng-switch-when="update" class="Button Button--default u-text-xs" ng-disabled="enteForm.$invalid" ng-click="doUpdateEnte(ente)">Aggiorna</button>
+        	<button type="button" ng-switch-when="create" class="Button Button--default u-text-xs" ng-disabled="enteForm.$invalid" ng-click="addEnte(ente)">Salva</button>
         	<button class="Button Button--danger js-fr-dialogmodal-close u-floatRight">Chiudi</button>
     	</div>
     	</fieldset>
